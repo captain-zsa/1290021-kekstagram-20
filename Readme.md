@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Сергей Зубов](https://up.htmlacademy.ru/javascript/20/user/1290021).
-* Наставник: [Дмитрий Рябин](https://htmlacademy.ru/profile/haschish).
+* Наставник: [Дмитрий Рябин](https://up.htmlacademy.ru/javascript/20/user/63289).
 
 ---
 
