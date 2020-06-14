@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
-* Студент: [Сергей Зубов](https://up.htmlacademy.ru/javascript/20/user/1290021).
-* Наставник: `Неизвестно`.
+* Студент: [Сергей Зубов](https://up.htmlacademy.ru/javascript/19/user/1290021).
+* Наставник: [Дмитрий Рябинин](https://up.htmlacademy.ru/javascript/19/user/63289).
 
 ---
 
@@ -48,5 +48,5 @@ git clone SSH-адрес_вашего_форка
 
 Репозиторий создан для обучения на интенсивном онлайн‑курсе «[Профессиональный JavaScript](https://htmlacademy.ru/intensive/javascript)», уровень 1 от [HTML Academy](https://htmlacademy.ru).
 
-[travis-image]: https://travis-ci.com/htmlacademy-javascript/1290021-kekstagram-20.svg?branch=master
-[travis-url]: https://travis-ci.com/htmlacademy-javascript/1290021-kekstagram-20
+[travis-image]: https://travis-ci.com/htmlacademy-javascript/1290021-kekstagram-19.svg?branch=master
+[travis-url]: https://travis-ci.com/htmlacademy-javascript/1290021-kekstagram-19
