@@ -18,6 +18,19 @@ var comments = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+var names = [
+  'Кристина',
+  'Артём',
+  'Марина',
+  'Сергей',
+  'Виктор',
+  'Павел',
+  'Пётр',
+  'Алевтина',
+  'Влад',
+  'Светлана',
+  'Елизавета',
+];
 
 var bigPicture = document.querySelector('.big-picture');
 var pictureBox = document.querySelector('.pictures');
@@ -30,26 +43,33 @@ var randomInteger = function (min, max) {
   return rand;
 };
 
+var generateComments = function (amount) {
+  var commentaries = [];
+
+  for (var j = 0; j < amount; j++) {
+    commentaries[j] = {
+      avatar  : "img/avatar-" + randomInteger(1, 6) + ".svg",
+      name    : names[randomInteger(0, 10)],
+      message : comments[randomInteger(0, comments.length - 1)] + ' ' + comments[randomInteger(0, comments.length - 1)]
+    };
+  }
+
+  return commentaries;
+};
+
 // Функция для генерации массива картинок
 var generatePictures = function (picCol) {
   var pictures = [];
-  var colComments = randomInteger(1, 10);
-  var commentaries = [];
+  var amountComments = randomInteger(1, 10);
 
   for (var i = 1; i <= picCol; i++) {
     pictures[i] = {
-      url: 'photos/' + i + '.jpg',
-      likes: randomInteger(15, 200),
-      comments: [],
-      description: description[randomInteger(0, description.length - 1)],
-      numberPicture: i
+      url           : 'photos/' + i + '.jpg',
+      likes         : randomInteger(15, 200),
+      comments      : generateComments(amountComments),
+      description   : description[randomInteger(0, description.length - 1)],
+      numberPicture : i,
     };
-
-    for (var j = 0; j < colComments; j++) {
-      commentaries[j] = comments[randomInteger(0, comments.length - 1)] + ' ' + comments[randomInteger(0, comments.length - 1)];
-    }
-
-    pictures[i].comments = commentaries;
   }
 
   return pictures;
@@ -92,12 +112,16 @@ var showBigPicture = function (data) {
   var socialCommentsList = bigPicture.querySelector('.social__comments');
   var itemsComments = document.createDocumentFragment();
 
+
   // открываем попап с первой фоткой и добавляем ему всякое из П.4
   bigPicture.classList.remove('hidden');
   bigPicture.querySelector('.big-picture__img img').src = data.url;
   bigPicture.querySelector('.likes-count').textContent = data.likes;
   bigPicture.querySelector('.comments-count').textContent = data.comments.length;
   bigPicture.querySelector('.social__caption').textContent = data.description;
+
+  // очищаем список комментариев
+  socialCommentsList.innerHTML = '';
 
   // Добавляем комментарии в этот попап
   for (var j = 0; j < data.comments.length; j++) {
@@ -109,13 +133,13 @@ var showBigPicture = function (data) {
     li.classList.add('social__comment--text');
 
     img.classList.add('social__picture');
-    img.src = 'img/avatar-' + randomInteger(1, 6) + '.svg';
+    img.src = data.comments[j].avatar;
     img.alt = 'Аватар комментатора фотографии';
     img.width = 35;
     img.height = 35;
 
     p.classList.add('social__text');
-    p.textContent = data.comments[j];
+    p.textContent = data.comments[j].message;
 
     li.appendChild(img);
     li.appendChild(p);
