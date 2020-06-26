@@ -48,9 +48,9 @@ var generateComments = function (amount) {
 
   for (var j = 0; j < amount; j++) {
     commentaries[j] = {
-      avatar  : "img/avatar-" + randomInteger(1, 6) + ".svg",
-      name    : names[randomInteger(0, 10)],
-      message : comments[randomInteger(0, comments.length - 1)] + ' ' + comments[randomInteger(0, comments.length - 1)]
+      avatar: 'img/avatar-' + randomInteger(1, 6) + '.svg',
+      name: names[randomInteger(0, 10)],
+      message: comments[randomInteger(0, comments.length - 1)] + ' ' + comments[randomInteger(0, comments.length - 1)]
     };
   }
 
@@ -64,11 +64,11 @@ var generatePictures = function (picCol) {
 
   for (var i = 1; i <= picCol; i++) {
     pictures[i] = {
-      url           : 'photos/' + i + '.jpg',
-      likes         : randomInteger(15, 200),
-      comments      : generateComments(amountComments),
-      description   : description[randomInteger(0, description.length - 1)],
-      numberPicture : i,
+      url: 'photos/' + i + '.jpg',
+      likes: randomInteger(15, 200),
+      comments: generateComments(amountComments),
+      description: description[randomInteger(0, description.length - 1)],
+      numberPicture: i,
     };
   }
 
