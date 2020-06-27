@@ -31,48 +31,6 @@ var names = [
   'Светлана',
   'Елизавета'
 ];
-var effectsArr = [
-  'none',
-  'chrome',
-  'sepia',
-  'marvin',
-  'phobos',
-  'heat'
-];
-var filters = {};
-
-filters[effectsArr[1]] = function (val) {
-  var maxSize = 1;
-  var coefficient = maxSize * val / 100;
-
-  return 'grayscale(' + coefficient + ')';
-};
-
-filters[effectsArr[2]] = function (val) {
-  var maxSize = 1;
-  var coefficient = maxSize * val / 100;
-
-  return 'sepia(' + coefficient + ')';
-};
-
-filters[effectsArr[3]] = function (val) {
-  return 'invert(' + val + '%)';
-};
-
-filters[effectsArr[4]] = function (val) {
-  var maxSize = 3;
-  var coefficient = maxSize * val / 100;
-
-  return 'blur(' + coefficient + 'px)';
-};
-
-// filters[effectsArr[5]] = function (val) {
-//   var maxSize = 3;
-//   var minSize = 1;
-//   var coefficient = ;
-
-//   return 'brightness(' + coefficient + ')';
-// };
 
 var bigPicture = document.querySelector('.big-picture');
 var pictureBox = document.querySelector('.pictures');
@@ -228,19 +186,54 @@ var applyEffect = function (val) {
   sliderPin.style.left = val + '%';
   effectLevelInput.value = val;
 
-  imgPreview.style.filter = (effect !== effectsArr[0] && val !== 100) ? filters[effect](val) : '';
+  if (effect === 'none') {
+    effectLevel.classList.add('hidden');
+  } else {
+    effectLevel.classList.remove('hidden');
+  }
+
+  var maxSize = 1;
+  var minSize = 1;
+  var coefficient = maxSize * val / 100;
+  var filterVal;
+
+  switch (effect) {
+    case 'chrome':
+      filterVal = 'grayscale(' + coefficient + ')';
+
+      break;
+
+    case 'sepia':
+      filterVal = 'sepia(' + coefficient + ')';
+
+      break;
+
+    case 'marvin':
+      filterVal = 'invert(' + val + '%)';
+      break;
+
+    case 'phobos':
+      maxSize = 3;
+      coefficient = maxSize * val / 100;
+
+      filterVal = 'blur(' + coefficient + 'px)';
+      break;
+
+    case 'heat':
+      maxSize = 3;
+      coefficient = (maxSize - minSize) * val / 100 + minSize;
+      filterVal = 'brightness(' + coefficient + ')';
+
+      break;
+  }
+
+  imgPreview.style.filter = (effect !== 'none' && val !== 100) ? filterVal : '';
 };
 
 // меняет эффект
 var changeEffect = function (effect) {
   imgPreview.className = 'effects__preview--' + effect;
   applyEffect(100);
-
-  if (effect === effectsArr[0]) {
-    effectLevel.classList.add('hidden');
-  } else {
-    effectLevel.classList.remove('hidden');
-  }
 };
 
 // измеряет значение ползунка
@@ -346,3 +339,43 @@ scale.addEventListener('click', function (e) {
 
   e.preventDefault();
 });
+
+// работа с хеш-тегами
+var btnSubmitUpload = document.querySelector('#upload-submit');
+
+var submitFormUpload = function (e) {
+  var hashtagsInput = document.querySelector('.text__hashtags');
+  var hashtagsArr = hashtagsInput.value.split(' ');
+  var error = '';
+
+
+  var duplicateHashtags = hashtagsArr.filter(function (elem, pos, arr) {
+      return pos !== arr.indexOf(elem) || pos !== arr.lastIndexOf(elem);
+  });
+
+  if(duplicateHashtags.length) {
+    error = 'Есть повторяющиеся хеш-теги';
+  }
+
+  if(hashtagsArr.length > 5) {
+    error = 'Хеш-тегов не может быть больше 5';
+  }
+
+  if (hashtagsArr.length && hashtagsInput.value.length) {
+    for(var h = 0; h < hashtagsArr.length; h++) {
+      if(!hashtagsArr[h].match(/^#[а-яА-ЯёЁa-zA-Z0-9]{1,19}/)) {
+        error = h + 1 + '-й хеш-тэг указан неверно';
+      }
+    }
+  }
+
+  if(error) {
+    hashtagsInput.setCustomValidity(error);
+
+    e.preventDefault();
+    return;
+  }
+
+};
+
+btnSubmitUpload.addEventListener('click', submitFormUpload);
